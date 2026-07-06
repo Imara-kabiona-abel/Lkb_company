@@ -245,6 +245,66 @@
   }
   .team-links a:hover{color:var(--teal); border-color:var(--teal);}
 
+  /* ---------- BOUTIQUE / PANIER ---------- */
+  .product-card{
+    background:var(--white); border:1px solid rgba(27,31,42,0.08);
+    border-radius:14px; overflow:hidden; display:flex; flex-direction:column;
+  }
+  .product-card img{width:100%; height:170px; object-fit:cover; display:block;}
+  .product-body{padding:18px; display:flex; flex-direction:column; gap:8px; flex:1;}
+  .product-body h3{font-size:1rem; font-weight:800;}
+  .product-price{font-family:'IBM Plex Mono', monospace; color:var(--teal); font-weight:700; font-size:1.05rem;}
+  .add-cart-btn{
+    margin-top:auto; background:var(--navy); color:var(--white);
+    border:none; border-radius:100px; padding:10px 16px;
+    font-family:'Inter'; font-weight:700; font-size:0.85rem; cursor:pointer;
+    transition:background 0.15s ease;
+  }
+  .add-cart-btn:hover{background:var(--teal);}
+
+  .cart-fab{
+    position:fixed; bottom:92px; right:22px; z-index:200;
+    background:var(--marigold); color:var(--navy);
+    width:52px; height:52px; border-radius:50%; border:none; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 8px 20px rgba(242,169,59,0.5); font-size:1.3rem;
+  }
+  .cart-badge{
+    position:absolute; top:-4px; right:-4px; background:var(--navy); color:var(--white);
+    font-size:0.7rem; font-weight:700; width:20px; height:20px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .cart-panel{
+    position:fixed; bottom:0; right:0; z-index:300;
+    width:100%; max-width:360px; max-height:70vh; overflow-y:auto;
+    background:var(--white); border-radius:16px 0 0 0;
+    box-shadow:-6px -6px 30px rgba(0,0,0,0.2);
+    padding:22px; transform:translateY(110%); transition:transform 0.25s ease;
+  }
+  .cart-panel.open{transform:translateY(0);}
+  .cart-panel h3{font-size:1.05rem; margin-bottom:14px;}
+  .cart-panel ul{list-style:none; margin-bottom:14px;}
+  .cart-panel li{
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:0.88rem; padding:8px 0; border-bottom:1px solid rgba(0,0,0,0.06);
+  }
+  .cart-panel li button{background:none; border:none; color:#c0392b; cursor:pointer; font-size:0.9rem;}
+  .cart-empty{font-size:0.85rem; color:#888;}
+  .cart-total{font-weight:700; margin-bottom:14px;}
+  .cart-close{position:absolute; top:14px; right:16px; background:none; border:none; font-size:1.2rem; cursor:pointer;}
+
+  /* ---------- PARTENAIRE ---------- */
+  .partner-section{background:#0B3234; color:var(--white);}
+  .partner-logos{display:flex; align-items:center; gap:18px; margin-bottom:22px; flex-wrap:wrap;}
+  .partner-logos img{height:48px; border-radius:8px; background:#fff; padding:6px 10px;}
+  .partner-badge{
+    font-family:'IBM Plex Mono', monospace; font-size:0.78rem; color:rgba(255,255,255,0.55);
+    border:1px dashed rgba(255,255,255,0.3); border-radius:8px; padding:12px 14px;
+  }
+  .partner-links{display:flex; flex-wrap:wrap; gap:18px; margin-top:18px;}
+  .partner-links a{color:var(--teal); font-weight:600; border-bottom:1px solid rgba(23,163,152,0.4);}
+  .partner-links a:hover{color:var(--marigold); border-color:var(--marigold);}
+
   /* ---------- FLOATING WHATSAPP ---------- */
   .float-wa{
     position:fixed; bottom:22px; right:22px; z-index:200;
@@ -436,13 +496,61 @@
   </div>
 </section>
 
-<!-- CANAL 05 — L'ÉQUIPE -->
+<!-- CANAL 05 — BOUTIQUE -->
+<section class="canal" id="canal-boutique">
+  <div class="wrap">
+    <div class="bars"><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="canal-head">
+      <div>
+        <div class="canal-tag">CANAL 05 — BOUTIQUE EN LIGNE</div>
+        <h2>Composez votre commande</h2>
+      </div>
+      <p class="canal-sub">Ajoutez vos articles au panier, puis envoyez la commande directement sur WhatsApp — pas de paiement en ligne, juste une confirmation rapide avec nous.</p>
+    </div>
+    <div class="grid">
+      <div class="product-card">
+        <img src="assets/smartwatch.jpg" alt="Montre connectée et écouteurs">
+        <div class="product-body">
+          <h3>Montre connectée + écouteurs</h3>
+          <span class="product-price">24 $</span>
+          <button class="add-cart-btn" onclick="addToCart('Montre connectée + écouteurs', 24)">Ajouter au panier</button>
+        </div>
+      </div>
+      <div class="product-card">
+        <img src="assets/canal_kit.jpg" alt="Kit complet Canal+ Rwanda">
+        <div class="product-body">
+          <h3>Kit complet Canal+ Rwanda</h3>
+          <span class="product-price">15 $</span>
+          <button class="add-cart-btn" onclick="addToCart('Kit complet Canal+ Rwanda', 15)">Ajouter au panier</button>
+        </div>
+      </div>
+      <div class="product-card">
+        <img src="assets/tirchet.jpg" alt="T-shirt personnalisé LKB">
+        <div class="product-body">
+          <h3>T-shirt personnalisé</h3>
+          <span class="product-price">5 $</span>
+          <button class="add-cart-btn" onclick="addToCart('T-shirt personnalisé', 5)">Ajouter au panier</button>
+        </div>
+      </div>
+      <div class="product-card">
+        <img src="assets/impression_bache.jpg" alt="Impression sur bâche">
+        <div class="product-body">
+          <h3>Impression sur bâche (par m²)</h3>
+          <span class="product-price">7 $</span>
+          <button class="add-cart-btn" onclick="addToCart('Impression sur bâche (1m²)', 7)">Ajouter au panier</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CANAL 05B — L'ÉQUIPE -->
 <section class="canal" id="canal-05">
   <div class="wrap">
     <div class="bars"><span></span><span></span><span></span><span></span><span></span></div>
     <div class="canal-head">
       <div>
-        <div class="canal-tag">CANAL 05 — L'ÉQUIPE</div>
+        <div class="canal-tag">CANAL 06 — L'ÉQUIPE</div>
         <h2>Derrière LKB Company</h2>
       </div>
       <p class="canal-sub">Les personnes qui répondent à vos messages et font tourner la boutique au quotidien.</p>
@@ -467,6 +575,25 @@
           <a href="https://www.linkedin.com/in/daniella-furaha-a03ba2337" target="_blank" rel="noopener">LinkedIn →</a>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTENAIRE — GENDERCHAIN -->
+<section class="canal partner-section" id="genderchain">
+  <div class="wrap">
+    <div class="bars"><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="canal-tag" style="color:var(--marigold);">PARTENAIRE</div>
+    <h2 style="color:#fff; margin-bottom:18px;">GenderChain RDC</h2>
+    <div class="partner-logos">
+      <img src="assets/logo_full.jpg" alt="LKB Company">
+      <span class="partner-badge">Logo GenderChain à ajouter ici</span>
+    </div>
+    <p style="max-width:60ch; color:rgba(255,255,255,0.85); margin-bottom:8px;">Nous sommes fiers de soutenir GenderChain RDC, une initiative dédiée à sensibiliser, éduquer et intégrer des pratiques inclusives dans la nouvelle technologie, en mettant l'accent sur l'égalité des genres et l'autonomisation des femmes dans les nouvelles technologies.</p>
+    <div class="partner-links">
+      <a href="https://drive.google.com/drive/folders/11ouAMeg_yeRytmIMrB0fHWx76QgIXDMT?usp=drive_link" target="_blank" rel="noopener">Visualiser nos réalisations en images →</a>
+      <a href="https://www.facebook.com/imarakabionaabel" target="_blank" rel="noopener">Page Facebook →</a>
+      <a href="https://x.com/GenderChain" target="_blank" rel="noopener">X (Twitter) →</a>
     </div>
   </div>
 </section>
@@ -498,14 +625,76 @@
       <span>Ets LKB Company</span>
       <span>RCCM : BBO/RCCM/25-A-1950</span>
       <span>ID NAT : 19-G4701-N74403X</span>
+      <span>Partenaire : GenderChain RDC</span>
     </div>
   </div>
 </footer>
-  
 
 <a class="float-wa" href="https://wa.me/243975140465" target="_blank" rel="noopener" aria-label="Contacter LKB Company sur WhatsApp">
   <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.44.79 3.07 1.2 4.73 1.2h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm5.8 14.05c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.12.11-1.8-.11-.42-.13-.95-.31-1.64-.6-2.88-1.24-4.76-4.14-4.9-4.33-.14-.19-1.17-1.56-1.17-2.97 0-1.41.74-2.1 1-2.39.26-.29.57-.36.76-.36.19 0 .38 0 .55.01.18.01.42-.07.65.5.24.58.81 2 .88 2.14.07.14.12.31.02.5-.1.19-.15.31-.29.48-.14.17-.3.38-.43.51-.14.14-.29.29-.12.57.17.29.75 1.24 1.61 2.01 1.11.99 2.04 1.3 2.33 1.44.29.14.46.12.63-.07.17-.19.72-.84.91-1.13.19-.29.38-.24.63-.14.26.1 1.65.78 1.93.92.29.14.48.22.55.34.07.13.07.72-.17 1.4z"/></svg>
 </a>
+
+<button class="cart-fab" onclick="toggleCart()" aria-label="Voir mon panier">
+  🛒<span class="cart-badge" id="cart-count">0</span>
+</button>
+
+<div class="cart-panel" id="cart-panel">
+  <button class="cart-close" onclick="toggleCart()" aria-label="Fermer">✕</button>
+  <h3>Votre panier</h3>
+  <ul id="cart-items"></ul>
+  <p id="cart-empty-msg" class="cart-empty">Votre panier est vide pour l'instant.</p>
+  <p class="cart-total">Total estimé : <span id="cart-total">0</span> $</p>
+  <a class="btn btn-primary" style="width:100%; justify-content:center;" onclick="checkoutWhatsapp()">Commander via WhatsApp →</a>
+</div>
+
+<script>
+  let cart = [];
+
+  function addToCart(name, price){
+    cart.push({name, price});
+    updateCartUI();
+    document.getElementById('cart-panel').classList.add('open');
+  }
+
+  function removeFromCart(index){
+    cart.splice(index, 1);
+    updateCartUI();
+  }
+
+  function updateCartUI(){
+    document.getElementById('cart-count').textContent = cart.length;
+    const list = document.getElementById('cart-items');
+    const emptyMsg = document.getElementById('cart-empty-msg');
+    list.innerHTML = '';
+    let total = 0;
+    cart.forEach((item, i) => {
+      total += item.price;
+      const li = document.createElement('li');
+      li.innerHTML = item.name + ' — ' + item.price + ' $ <button onclick="removeFromCart(' + i + ')">✕</button>';
+      list.appendChild(li);
+    });
+    emptyMsg.style.display = cart.length === 0 ? 'block' : 'none';
+    document.getElementById('cart-total').textContent = total.toFixed(2);
+  }
+
+  function toggleCart(){
+    document.getElementById('cart-panel').classList.toggle('open');
+  }
+
+  function checkoutWhatsapp(){
+    if(cart.length === 0){
+      alert('Votre panier est vide. Ajoutez au moins un article avant de commander.');
+      return;
+    }
+    let msg = 'Bonjour, je souhaite commander :%0A';
+    cart.forEach(item => { msg += '- ' + item.name + ' (' + item.price + '$)%0A'; });
+    const total = cart.reduce((s, i) => s + i.price, 0);
+    msg += 'Total estime : ' + total.toFixed(2) + '$';
+    window.open('https://wa.me/243975140465?text=' + msg, '_blank');
+  }
+
+  updateCartUI();
+</script>
 
 </body>
 </html>

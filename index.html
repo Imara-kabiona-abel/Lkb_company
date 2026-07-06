@@ -208,18 +208,26 @@
     display:flex; flex-wrap:wrap; gap:8px 24px;
   }
 
-  .credit{
-    display:flex; align-items:center; gap:16px;
-    border-top:1px solid rgba(255,255,255,0.12); padding:24px 0;
-    margin-bottom:24px;
+  .team-row{display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:20px;}
+  .team-card{
+    background:var(--white); border:1px solid rgba(27,31,42,0.08);
+    border-radius:16px; padding:32px 26px; text-align:center;
   }
-  .credit img{
-    width:52px; height:52px; border-radius:50%; object-fit:cover;
-    border:2px solid var(--teal); flex-shrink:0;
+  .team-card img{
+    width:96px; height:96px; border-radius:50%; object-fit:cover;
+    border:3px solid var(--teal); margin-bottom:16px;
   }
-  .credit-name{font-weight:700; color:var(--white); font-size:0.95rem; margin-bottom:4px;}
-  .credit a{font-size:0.85rem; color:var(--teal); border-bottom:1px solid rgba(23,163,152,0.4);}
-  .credit a:hover{color:var(--marigold); border-color:var(--marigold);}
+  .team-card .divider{
+    font-size:0.85rem; color:var(--teal); letter-spacing:0.05em; margin-bottom:14px;
+  }
+  .team-bio{font-weight:700; font-size:1rem; color:var(--charcoal); margin-bottom:4px;}
+  .team-role{font-size:0.88rem; color:#666; margin-bottom:18px;}
+  .team-links{display:flex; flex-direction:column; gap:8px; align-items:center;}
+  .team-links a{
+    font-family:'IBM Plex Mono', monospace; font-size:0.82rem; font-weight:600;
+    color:var(--navy); border-bottom:2px solid var(--marigold); padding-bottom:2px;
+  }
+  .team-links a:hover{color:var(--teal); border-color:var(--teal);}
 
   /* ---------- FLOATING WHATSAPP ---------- */
   .float-wa{
@@ -403,6 +411,41 @@
   </div>
 </section>
 
+<!-- CANAL 05 — L'ÉQUIPE -->
+<section class="canal" id="canal-05">
+  <div class="wrap">
+    <div class="bars"><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="canal-head">
+      <div>
+        <div class="canal-tag">CANAL 05 — L'ÉQUIPE</div>
+        <h2>Derrière LKB Company</h2>
+      </div>
+      <p class="canal-sub">Les personnes qui répondent à vos messages et font tourner la boutique au quotidien.</p>
+    </div>
+    <div class="team-row">
+      <div class="team-card">
+        <img src="assets/abel.jpeg" alt="Imara Kabiona Abel">
+        <div class="divider">━━━━━ ✦ ✧ ✦ ━━━━━</div>
+        <p class="team-bio">↳ Je suis Imara Kabiona Abel.</p>
+        <p class="team-role">Chargé Marketing – Ets LKB Company</p>
+        <div class="team-links">
+          <a href="https://www.linkedin.com/in/imara-kabiona-abel" target="_blank" rel="noopener">LinkedIn →</a>
+          <a href="https://imara-kabiona-abel.github.io/Portfolio-Imara-Kabiona-Abel/" target="_blank" rel="noopener">Portfolio / CV →</a>
+        </div>
+      </div>
+      <div class="team-card">
+        <img src="assets/daniella.jpg" alt="Furaha Ngabo Daniella">
+        <div class="divider">━━━━━ ✦ ✧ ✦ ━━━━━</div>
+        <p class="team-bio">↳ Furaha Ngabo Daniella.</p>
+        <p class="team-role">Chargée caissière – Ets LKB Company</p>
+        <div class="team-links">
+          <a href="https://www.linkedin.com/in/daniella-furaha-a03ba2337" target="_blank" rel="noopener">LinkedIn →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer id="contact">
   <div class="wrap">
     <div class="foot-grid">
@@ -413,20 +456,17 @@
       <div>
         <h4>Contact</h4>
         <ul>
-          <li>📞 +243 998 344 653</li>
+          <li>📞 +243 975140465</li>
+          <li>📞 +243 840485208</li>
+          <li>📞 +243 823 620 007</li>
           <li>✉️ companylkb@gmail.com</li>
         </ul>
       </div>
       <div>
         <h4>Rejoindre</h4>
-        <a class="btn btn-primary" href="https://wa.me/243975140465" target="_blank" rel="noopener">Écrire sur WhatsApp →</a>
-      </div>
-    </div>
-    <div class="credit">
-      <img src="assets/abel.jpeg" alt="Imara Kabiona Abel">
-      <div>
-        <p class="credit-name">Site conçu par Imara Kabiona Abel</p>
-        <a href="https://wa.me/243975140465?text=Bonjour%2C%20je%20voudrais%20un%20devis%20pour%20la%20conception%20d%27un%20site%20internet" target="_blank" rel="noopener">Besoin d'un site comme celui-ci ? Écrire sur WhatsApp →</a>
+        <a class="btn btn-primary" href="https://wa.me/243975140465" target="_blank" rel="noopener" style="margin-bottom:12px;">Écrire sur WhatsApp →</a>
+        <p style="margin-top:14px; margin-bottom:6px;">Suivez notre page pour ne rien rater de nos nouveautés :</p>
+        <a href="https://www.facebook.com/share/1BTuj5TMg1/?mibextid=wwXIfr" target="_blank" rel="noopener" style="color:var(--teal); font-weight:600; border-bottom:1px solid rgba(23,163,152,0.4);">Facebook LKB Company →</a>
       </div>
     </div>
     <div class="legal">

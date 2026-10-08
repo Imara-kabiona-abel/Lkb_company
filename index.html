@@ -300,7 +300,7 @@
     border-radius:14px; border:1px solid rgba(27,31,42,0.08);
   }
   .market-note{font-size:0.85rem; color:#555; max-width:52ch;}
-  .market-grid{min-height:80px;}
+  .market-grid{min-height:80px; align-items:start;}
   .market-status{color:#666; font-size:0.9rem;}
   .market-card{
     background:var(--porcelain); border:1px solid rgba(27,31,42,0.08);
@@ -311,6 +311,8 @@
   .market-desc{font-size:0.9rem; color:#555;}
   .market-seller{font-size:0.82rem; color:#777; font-family:'IBM Plex Mono', monospace;}
   .market-card .btn{align-self:flex-start; margin-top:4px; padding:10px 18px; font-size:0.85rem;}
+  .market-photo{display:block; border-radius:10px; overflow:hidden; background:#dfe9e8; aspect-ratio:4/3;}
+  .market-photo img{width:100%; height:100%; object-fit:cover; display:block;}
 
   /* ---------- ÉQUIPE ---------- */
   .team-row{display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:20px;}
@@ -862,6 +864,32 @@
     return '';
   }
 
+  // Premier champ dont le nom commence par "photo" (ex : "Photo", "Photo de l'article")
+  function pickStarts(row, prefix){
+    for (var k in row){
+      if (norm(k).indexOf(prefix) === 0) return (row[k] || '').toString().trim();
+    }
+    return '';
+  }
+
+  // Transforme la valeur de la colonne Photo en miniature affichable.
+  // Accepte : lien Google Drive (envoi via Google Forms), lien image https, ou chemin assets/...
+  function toImageUrl(raw){
+    if (!raw) return null;
+    var first = raw.split(',')[0].trim(); // Google Forms sépare plusieurs fichiers par une virgule
+    var m = first.match(/[?&]id=([\w-]+)/) || first.match(/\/d\/([\w-]+)/);
+    if (/drive\.google\.com|docs\.google\.com/.test(first) && m){
+      return {
+        thumb: 'https://drive.google.com/thumbnail?id=' + m[1] + '&sz=w800',
+        full:  'https://drive.google.com/file/d/' + m[1] + '/view'
+      };
+    }
+    if (/^https:\/\//.test(first) || /^assets\//.test(first)){
+      return { thumb: first, full: first };
+    }
+    return null;
+  }
+
   if (isConfigured(MARKET_FORM_URL)){
     formBtn.href = MARKET_FORM_URL;
   } else {
@@ -884,11 +912,27 @@
       var titre = pick(r, 'Titre') || 'Article';
       var cat   = pick(r, 'Categorie');
       var prix  = pick(r, 'Prix').replace(/[^0-9.,]/g, '');
-      var desc  = pick(r, 'Description').slice(0, 240);
+      var desc  = pick(r, 'Description');
+      if (desc.length > 240) desc = desc.slice(0, 237) + '…';
+      var photo = toImageUrl(pickStarts(r, 'photo'));
       var wa    = pick(r, 'WhatsApp').replace(/[^0-9]/g, '');
       if (wa.charAt(0) === '0') wa = '243' + wa.slice(1); // 0997... devient 243997...
 
       var card = el('div', 'market-card');
+      if (photo){
+        var link = el('a', 'market-photo');
+        link.href = photo.full;
+        link.target = '_blank';
+        link.rel = 'noopener';
+        var img = document.createElement('img');
+        img.src = photo.thumb;
+        img.alt = titre;
+        img.loading = 'lazy';
+        img.referrerPolicy = 'no-referrer';
+        img.onerror = function(){ link.remove(); }; // photo inaccessible : on l'enlève proprement
+        link.appendChild(img);
+        card.appendChild(link);
+      }
       if (cat)  card.appendChild(el('span', 'tag', cat));
       card.appendChild(el('h3', null, titre));
       if (prix) card.appendChild(el('span', 'market-price', prix + ' $'));

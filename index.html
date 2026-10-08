@@ -311,6 +311,7 @@
   .market-desc{font-size:0.9rem; color:#555;}
   .market-seller{font-size:0.82rem; color:#777; font-family:'IBM Plex Mono', monospace;}
   .market-card .btn{align-self:flex-start; margin-top:4px; padding:10px 18px; font-size:0.85rem;}
+  .market-debug{margin-top:24px; padding:14px; background:#fff; border:1px dashed #999; border-radius:10px; font-family:'IBM Plex Mono', monospace; font-size:0.75rem; white-space:pre-wrap; word-break:break-all; color:#333;}
   .market-photo{display:block; border-radius:10px; overflow:hidden; background:#dfe9e8; aspect-ratio:4/3;}
   .market-photo img{width:100%; height:100%; object-fit:cover; display:block;}
 
@@ -832,6 +833,8 @@
 
   var grid = document.getElementById('market-grid');
   var formBtn = document.getElementById('market-form-btn');
+  // Mode diagnostic : ajoute ?debug à l'adresse du site (ex : lkb.dpdns.org/?debug)
+  var DEBUG = /[?&]debug\b/.test(location.search);
 
   function isConfigured(url){
     return typeof url === 'string' && /^https?:\/\//.test(url) && url.indexOf('COLLE_ICI') === -1;
@@ -852,24 +855,34 @@
     return e;
   }
 
-  // Compare les noms de colonnes sans tenir compte des accents, majuscules ou espaces
+  // Compare les noms sans tenir compte des accents, majuscules ou espaces
   function norm(s){
     return (s || '').toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase();
   }
-  function pick(row, name){
-    var target = norm(name);
-    for (var k in row){
-      if (norm(k) === target) return (row[k] || '').toString().trim();
-    }
-    return '';
-  }
 
-  // Premier champ dont le nom commence par "photo" (ex : "Photo", "Photo de l'article")
-  function pickStarts(row, prefix){
-    for (var k in row){
-      if (norm(k).indexOf(prefix) === 0) return (row[k] || '').toString().trim();
+  // Associe chaque champ du marché à la bonne colonne du Sheet,
+  // même si le titre de la question du formulaire a été modifié
+  // (ex : "Nom de l'article", "Photo de l'article", "Description brève").
+  function detectColumns(headers){
+    var used = {};
+    var list = headers.map(function(h){ return { raw: h, n: norm(h) }; });
+    function has(n, words){ return words.some(function(w){ return n.indexOf(w) !== -1; }); }
+    function find(test){
+      for (var i = 0; i < list.length; i++){
+        if (!used[list[i].raw] && test(list[i].n)){ used[list[i].raw] = true; return list[i].raw; }
+      }
+      return null;
     }
-    return '';
+    var c = {};
+    c.statut = find(function(n){ return n.indexOf('statut') === 0 || n === 'status' || n === 'validation'; });
+    c.wa     = find(function(n){ return has(n, ['whatsapp', 'telephone', 'numero']); });
+    c.photo  = find(function(n){ return has(n, ['photo', 'image', 'fichier']); });
+    c.desc   = find(function(n){ return has(n, ['descri', 'detail']); });
+    c.prix   = find(function(n){ return has(n, ['prix', 'price', 'tarif']); });
+    c.cat    = find(function(n){ return has(n, ['categ']); });
+    c.titre  = find(function(n){ return has(n, ['titre', 'nom de l', 'article', 'produit', 'intitule', 'designation']); });
+    c.nom    = find(function(n){ return n.indexOf('nom') === 0 || has(n, ['vendeur']); });
+    return c;
   }
 
   // Transforme la valeur de la colonne Photo en miniature affichable.
@@ -896,9 +909,32 @@
     formBtn.style.display = 'none';
   }
 
-  function render(rows){
+  function showDebug(headers, c, rows){
+    var labels = { statut:'Statut', titre:'Titre', desc:'Description', photo:'Photo', prix:'Prix', cat:'Catégorie', nom:'Nom du vendeur', wa:'WhatsApp' };
+    var lines = ['DIAGNOSTIC DU MARCHÉ', '', 'Colonnes lues dans le Sheet :', '  ' + headers.join('  |  '), '', 'Champ du site  ->  colonne utilisée :'];
+    Object.keys(labels).forEach(function(k){
+      lines.push('  ' + labels[k] + '  ->  ' + (c[k] ? '"' + c[k] + '"' : 'NON TROUVÉE'));
+    });
+    var firstValid = rows.filter(function(r){ return c.statut && norm(r[c.statut]).indexOf('valid') === 0; })[0];
+    lines.push('', 'Annonces dans le Sheet : ' + rows.length);
+    if (firstValid){
+      var raw = c.photo ? (firstValid[c.photo] || '') : '';
+      lines.push('Valeur Photo de la 1re annonce validée : ' + (raw || '(vide)'));
+    } else {
+      lines.push('Aucune annonce avec Statut = Validé.');
+    }
+    var pre = el('pre', 'market-debug', lines.join('\n'));
+    grid.parentNode.appendChild(pre);
+  }
+
+  function render(rows, headers){
+    var c = detectColumns(headers);
+    if (DEBUG) showDebug(headers, c, rows);
+
+    function get(r, key){ return key ? (r[key] || '').toString().trim() : ''; }
+
     var valid = rows.filter(function(r){
-      return norm(pick(r, 'Statut')) === 'valide';
+      return norm(get(r, c.statut)).indexOf('valid') === 0;
     }).reverse(); // annonces les plus récentes en premier
 
     if (valid.length === 0){
@@ -908,14 +944,14 @@
 
     grid.textContent = '';
     valid.forEach(function(r){
-      var nom   = pick(r, 'Nom complet') || 'Vendeur';
-      var titre = pick(r, 'Titre') || 'Article';
-      var cat   = pick(r, 'Categorie');
-      var prix  = pick(r, 'Prix').replace(/[^0-9.,]/g, '');
-      var desc  = pick(r, 'Description');
+      var nom   = get(r, c.nom) || 'Vendeur';
+      var titre = get(r, c.titre) || 'Article';
+      var cat   = get(r, c.cat);
+      var prix  = get(r, c.prix).replace(/[^0-9.,]/g, '');
+      var desc  = get(r, c.desc);
       if (desc.length > 240) desc = desc.slice(0, 237) + '…';
-      var photo = toImageUrl(pickStarts(r, 'photo'));
-      var wa    = pick(r, 'WhatsApp').replace(/[^0-9]/g, '');
+      var photo = toImageUrl(get(r, c.photo));
+      var wa    = get(r, c.wa).replace(/[^0-9]/g, '');
       if (wa.charAt(0) === '0') wa = '243' + wa.slice(1); // 0997... devient 243997...
 
       var card = el('div', 'market-card');
@@ -929,7 +965,16 @@
         img.alt = titre;
         img.loading = 'lazy';
         img.referrerPolicy = 'no-referrer';
-        img.onerror = function(){ link.remove(); }; // photo inaccessible : on l'enlève proprement
+        img.onerror = function(){
+          if (DEBUG){
+            link.textContent = 'Photo inaccessible : vérifie le partage du dossier Drive (Tous les utilisateurs disposant du lien).';
+            link.style.aspectRatio = 'auto';
+            link.style.padding = '14px';
+            link.style.fontSize = '0.8rem';
+          } else {
+            link.remove(); // photo inaccessible : on l'enlève proprement
+          }
+        };
         link.appendChild(img);
         card.appendChild(link);
       }
@@ -964,7 +1009,10 @@
     download: true,
     header: true,
     skipEmptyLines: true,
-    complete: function(results){ render(results.data); },
+    complete: function(results){
+      var headers = (results.meta && results.meta.fields) || (results.data[0] ? Object.keys(results.data[0]) : []);
+      render(results.data, headers);
+    },
     error: function(){ status('Impossible de charger les annonces pour le moment. Rechargez la page dans quelques instants.'); }
   });
 

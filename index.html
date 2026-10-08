@@ -3,30 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LKB Company — Abonnements Canal+, Électronique, Impression &amp; Design</title>
-<meta name="description" content="LKB Company : abonnements Canal+ Congo/Rwanda/Burundi, accessoires électroniques en gros et détail, impression sur supports, conception graphique, formation et création de sites web.">
-<link rel="icon" type="image/png" href="assets/logo.jpg">
+<title>LKB Company — Boutique en ligne, Canal+, Électronique, Impression &amp; Design</title>
+<meta name="description" content="LKB Company : boutique en ligne, abonnements Canal+ Congo/Rwanda/Burundi, accessoires électroniques en gros et détail, impression sur supports, conception graphique, formation et création de sites web.">
+<link rel="icon" type="image/jpeg" href="assets/logo.jpg">
+
+<!-- Aperçu quand le lien est partagé sur WhatsApp / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="LKB Company — Boutique en ligne, Canal+, Impression &amp; Design">
+<meta property="og:description" content="Commandez sur le site, finalisez sur WhatsApp. RDC · Rwanda · Burundi.">
+<meta property="og:url" content="https://lkb.dpdns.org/">
+<meta property="og:image" content="https://lkb.dpdns.org/assets/logo_full.jpg">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-.market-toolbar{
-  display:flex; flex-wrap:wrap; align-items:center; gap:18px;
-  margin-bottom:36px; padding:20px; background:var(--white);
-  border-radius:14px; border:1px solid rgba(27,31,42,0.08);
+
+<!-- Données d'entreprise lisibles par Google -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Ets LKB Company",
+  "url": "https://lkb.dpdns.org/",
+  "logo": "https://lkb.dpdns.org/assets/logo.jpg",
+  "email": "companylkb@gmail.com",
+  "telephone": "+243975140465",
+  "areaServed": ["RD Congo", "Rwanda", "Burundi"],
+  "sameAs": ["https://www.facebook.com/share/1BTuj5TMg1/"]
 }
-.market-note{font-size:0.85rem; color:#666; max-width:48ch; margin:0;}
-.market-grid{min-height:80px;}
-.market-loading, .market-empty{color:#888; font-size:0.9rem;}
-.market-card{
-  background:var(--white); border:1px solid rgba(27,31,42,0.08);
-  border-radius:14px; padding:22px; display:flex; flex-direction:column; gap:10px;
-}
-.market-card h3{font-size:1.02rem; font-weight:800;}
-.market-price{font-family:'IBM Plex Mono', monospace; color:var(--teal); font-weight:700; font-size:1.05rem;}
-.market-desc{font-size:0.9rem; color:#555;}
-.market-seller{font-size:0.82rem; color:#888; font-family:'IBM Plex Mono', monospace;}
-.market-card .btn{align-self:flex-start; margin-top:4px; padding:10px 18px; font-size:0.85rem;}
-  <style>
+</script>
+
+<style>
   :root{
     --navy:#062C2E;
     --navy-2:#0B4245;
@@ -41,59 +48,7 @@
   *{box-sizing:border-box; margin:0; padding:0;}
 
   html{scroll-behavior:smooth;}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-<script>
-  const MARKET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRsanHLvgBT3khXzC75za7GXjxocvddfG6ChKNJkIqAzwi1B-zfhLUMwqtkupa-y5DGIb78Om-GHJY6/pubhtml?gid=1805852620&single=true";
 
-  // Évite qu'un titre ou une description malveillante n'injecte du code dans la page
-  function escapeHTML(str){
-    const div = document.createElement('div');
-    div.textContent = str || '';
-    return div.innerHTML;
-  }
-
-  function renderMarket(rows){
-    const grid = document.getElementById('market-grid');
-    const valid = rows.filter(r => (r['Statut'] || '').trim().toLowerCase() === 'validé'
-                                 || (r['Statut'] || '').trim().toLowerCase() === 'valide');
-
-    if (valid.length === 0){
-      grid.innerHTML = '<p class="market-empty">Aucune annonce publiée pour le moment. Soyez le premier à proposer un article !</p>';
-      return;
-    }
-
-    grid.innerHTML = '';
-    valid.forEach(r => {
-      const nom = escapeHTML((r['Nom complet'] || 'Vendeur').trim());
-      const whatsapp = (r['WhatsApp'] || '').replace(/[^0-9]/g, '');
-      const titre = escapeHTML((r['Titre'] || 'Article').trim());
-      const categorie = escapeHTML((r['Categorie'] || '').trim());
-      const prix = escapeHTML((r['Prix'] || '').trim());
-      const desc = escapeHTML((r['Description'] || '').trim());
-      const msg = encodeURIComponent('Bonjour ' + nom + ', je suis intéressé(e) par votre annonce "' + titre + '" vue sur le site LKB Company.');
-
-      const card = document.createElement('div');
-      card.className = 'market-card';
-      card.innerHTML =
-        (categorie ? '<span class="tag">' + categorie + '</span>' : '') +
-        '<h3>' + titre + '</h3>' +
-        (prix ? '<span class="market-price">' + prix + ' $</span>' : '') +
-        '<p class="market-desc">' + desc + '</p>' +
-        '<span class="market-seller">Vendu par ' + nom + '</span>' +
-        (whatsapp ? '<a class="btn btn-primary" href="https://wa.me/' + whatsapp + '?text=' + msg + '" target="_blank" rel="noopener">Contacter le vendeur →</a>' : '');
-      grid.appendChild(card);
-    });
-  }
-
-  Papa.parse(MARKET_CSV_URL, {
-    download: true,
-    header: true,
-    complete: function(results){ renderMarket(results.data); },
-    error: function(){
-      document.getElementById('market-grid').innerHTML = '<p class="market-empty">Impossible de charger les annonces pour le moment.</p>';
-    }
-  });
-</script>
   body{
     font-family:'Inter', sans-serif;
     color:var(--charcoal);
@@ -109,22 +64,34 @@
 
   h1,h2,h3{font-family:'Archivo Black', sans-serif; font-weight:400; line-height:1.05; letter-spacing:-0.01em;}
 
-  .mono{font-family:'IBM Plex Mono', monospace;}
-
   a{color:inherit; text-decoration:none;}
 
   .wrap{max-width:var(--max); margin:0 auto; padding:0 24px;}
 
+  /* ---------- BANDEAU INFOS ENTREPRISE ---------- */
+  .infobar{
+    background:#041B1C;
+    color:rgba(255,255,255,0.78);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.74rem;
+    letter-spacing:0.03em;
+  }
+  .infobar .wrap{
+    display:flex; flex-wrap:wrap; justify-content:center;
+    gap:4px 26px; padding-top:9px; padding-bottom:9px;
+  }
+  .infobar b{color:var(--marigold); font-weight:600;}
+  .infobar a:hover{color:var(--white);}
+  .infobar a:focus-visible{outline:2px solid var(--marigold); outline-offset:2px;}
+
   /* ---------- TOP BAR ---------- */
   .topbar{
-    position:fixed; top:0; left:0; right:0; z-index:100;
-    background:rgba(16,27,51,0.92);
+    position:sticky; top:0; z-index:100;
+    background:rgba(6,44,46,0.94);
     backdrop-filter:blur(8px);
     border-bottom:1px solid rgba(255,255,255,0.08);
   }
   .topbar .wrap{display:flex; align-items:center; justify-content:space-between; height:64px;}
-  .brand{font-family:'Archivo Black', sans-serif; color:var(--white); font-size:1.15rem; letter-spacing:0.02em;}
-  .brand span{color:var(--marigold);}
   .brand-logo{display:flex; align-items:center;}
   .brand-logo img{height:46px; width:46px; object-fit:cover; border-radius:10px; display:block;}
   .top-cta{
@@ -141,7 +108,7 @@
   .hero{
     background:radial-gradient(120% 140% at 15% -10%, #0F4C4F 0%, var(--navy) 55%, #041B1C 100%);
     color:var(--white);
-    padding:140px 0 96px;
+    padding:84px 0 96px;
     position:relative;
     overflow:hidden;
   }
@@ -188,9 +155,9 @@
   .hero-ctas{display:flex; flex-wrap:wrap; gap:14px; margin-bottom:52px;}
 
   .btn{
-    display:inline-flex; align-items:center; gap:10px;
-    padding:15px 26px; border-radius:100px;
-    font-weight:700; font-size:0.95rem;
+    display:inline-flex; align-items:center; justify-content:center; gap:10px;
+    padding:15px 26px; border-radius:100px; border:0; cursor:pointer;
+    font-family:inherit; font-weight:700; font-size:0.95rem;
     transition:transform 0.15s ease, box-shadow 0.15s ease;
   }
   .btn:focus-visible{outline:3px solid var(--marigold); outline-offset:2px;}
@@ -198,6 +165,7 @@
   .btn-primary:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(242,169,59,0.35);}
   .btn-ghost{background:transparent; color:var(--white); border:1.5px solid rgba(255,255,255,0.3);}
   .btn-ghost:hover{border-color:var(--white); transform:translateY(-2px);}
+  .btn-block{width:100%;}
 
   .hero-countries{display:flex; flex-wrap:wrap; gap:10px;}
   .chip{
@@ -208,12 +176,8 @@
   }
 
   /* ---------- SIGNAL BAR DIVIDER ---------- */
-  .bars{
-    display:flex; align-items:flex-end; gap:4px; height:22px; margin-bottom:14px;
-  }
-  .bars span{
-    width:4px; background:var(--teal); border-radius:2px; display:block;
-  }
+  .bars{display:flex; align-items:flex-end; gap:4px; height:22px; margin-bottom:14px;}
+  .bars span{width:4px; background:var(--teal); border-radius:2px; display:block;}
   .bars span:nth-child(1){height:35%;}
   .bars span:nth-child(2){height:70%;}
   .bars span:nth-child(3){height:100%;}
@@ -221,8 +185,10 @@
   .bars span:nth-child(5){height:20%;}
 
   /* ---------- SECTIONS ---------- */
-  section.canal{padding:88px 0;}
-  section.canal:nth-of-type(even){background:var(--white);}
+  section.canal{padding:88px 0; scroll-margin-top:72px;}
+  /* Alternance de fond automatique. La section partenaire est exclue :
+     elle garde toujours son fond sombre, quel que soit son rang. */
+  section.canal:not(.partner-section):nth-of-type(even){background:var(--white);}
 
   .canal-head{
     display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between;
@@ -238,7 +204,7 @@
     background:var(--porcelain); border:1px solid rgba(27,31,42,0.08);
     border-radius:14px; padding:26px;
   }
-  section.canal:nth-of-type(even) .card{background:var(--porcelain);}
+  section.canal:nth-of-type(odd) .card{background:var(--white);}
   .card h3{font-family:'Inter',sans-serif; font-weight:800; font-size:1.05rem; margin-bottom:10px;}
   .card p{color:#555; font-size:0.92rem; margin-bottom:16px;}
   .card a.small-cta{
@@ -249,9 +215,10 @@
 
   .tags{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px;}
   .tag{
+    display:inline-block;
     font-family:'IBM Plex Mono', monospace; font-size:0.76rem;
     background:rgba(23,163,152,0.1); color:#0c766c;
-    padding:5px 11px; border-radius:6px;
+    padding:5px 11px; border-radius:6px; align-self:flex-start;
   }
 
   .country-row{display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:16px;}
@@ -260,6 +227,7 @@
     display:flex; flex-direction:column; gap:14px;
   }
   .country-card h3{font-size:1.1rem;}
+  .country-card .tag{background:rgba(255,255,255,0.1); color:#fff;}
   .country-card .btn{align-self:flex-start; padding:10px 18px; font-size:0.85rem;}
 
   .promo-visuals{
@@ -274,54 +242,15 @@
     width:100%; max-width:480px; margin:0 auto 32px; display:block;
     border-radius:14px; box-shadow:0 12px 28px rgba(6,44,46,0.18);
   }
-  .footer-logo-card{
-    display:inline-block; background:var(--white); border-radius:14px;
-    padding:14px 22px; margin-bottom:18px;
-  }
-  .footer-logo-card img{height:52px; width:auto; display:block;}
-  footer{background:var(--navy); color:rgba(255,255,255,0.8); padding:72px 0 32px;}
-  .foot-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:40px; margin-bottom:48px;}
-  @media (max-width:720px){.foot-grid{grid-template-columns:1fr; gap:32px;}}
-  footer h4{font-family:'IBM Plex Mono', monospace; font-size:0.78rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--marigold); margin-bottom:16px;}
-  footer .brand{margin-bottom:14px;}
-  footer p{font-size:0.92rem; margin-bottom:8px;}
-  footer ul{list-style:none;}
-  footer li{margin-bottom:10px; font-size:0.92rem;}
-  .legal{
-    border-top:1px solid rgba(255,255,255,0.12); padding-top:24px;
-    font-family:'IBM Plex Mono', monospace; font-size:0.76rem; color:rgba(255,255,255,0.5);
-    display:flex; flex-wrap:wrap; gap:8px 24px;
-  }
 
-  .team-row{display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:20px;}
-  .team-card{
-    background:var(--white); border:1px solid rgba(27,31,42,0.08);
-    border-radius:16px; padding:32px 26px; text-align:center;
-  }
-  .team-card img{
-    width:96px; height:96px; border-radius:50%; object-fit:cover;
-    border:3px solid var(--teal); margin-bottom:16px;
-  }
-  .team-card .divider{
-    font-size:0.85rem; color:var(--teal); letter-spacing:0.05em; margin-bottom:14px;
-  }
-  .team-bio{font-weight:700; font-size:1rem; color:var(--charcoal); margin-bottom:4px;}
-  .team-role{font-size:0.88rem; color:#666; margin-bottom:18px;}
-  .team-links{display:flex; flex-direction:column; gap:8px; align-items:center;}
-  .team-links a{
-    font-family:'IBM Plex Mono', monospace; font-size:0.82rem; font-weight:600;
-    color:var(--navy); border-bottom:2px solid var(--marigold); padding-bottom:2px;
-  }
-  .team-links a:hover{color:var(--teal); border-color:var(--teal);}
-
-  /* ---------- BOUTIQUE / PANIER ---------- */
+  /* ---------- VITRINE / PANIER ---------- */
   .product-card{
     background:var(--white); border:1px solid rgba(27,31,42,0.08);
     border-radius:14px; overflow:hidden; display:flex; flex-direction:column;
   }
   .product-card img{width:100%; height:170px; object-fit:cover; display:block;}
   .product-body{padding:18px; display:flex; flex-direction:column; gap:8px; flex:1;}
-  .product-body h3{font-size:1rem; font-weight:800;}
+  .product-body h3{font-family:'Inter',sans-serif; font-size:1rem; font-weight:800; line-height:1.25;}
   .product-price{font-family:'IBM Plex Mono', monospace; color:var(--teal); font-weight:700; font-size:1.05rem;}
   .add-cart-btn{
     margin-top:auto; background:var(--navy); color:var(--white);
@@ -330,6 +259,7 @@
     transition:background 0.15s ease;
   }
   .add-cart-btn:hover{background:var(--teal);}
+  .add-cart-btn:focus-visible{outline:3px solid var(--marigold); outline-offset:2px;}
 
   .cart-fab{
     position:fixed; bottom:92px; right:22px; z-index:200;
@@ -338,6 +268,7 @@
     display:flex; align-items:center; justify-content:center;
     box-shadow:0 8px 20px rgba(242,169,59,0.5); font-size:1.3rem;
   }
+  .cart-fab:focus-visible{outline:3px solid var(--navy); outline-offset:3px;}
   .cart-badge{
     position:absolute; top:-4px; right:-4px; background:var(--navy); color:var(--white);
     font-size:0.7rem; font-weight:700; width:20px; height:20px; border-radius:50%;
@@ -351,48 +282,122 @@
     padding:22px; transform:translateY(110%); transition:transform 0.25s ease;
   }
   .cart-panel.open{transform:translateY(0);}
-  .cart-panel h3{font-size:1.05rem; margin-bottom:14px;}
+  .cart-panel h3{font-family:'Inter',sans-serif; font-weight:800; font-size:1.05rem; margin-bottom:14px;}
   .cart-panel ul{list-style:none; margin-bottom:14px;}
   .cart-panel li{
-    display:flex; justify-content:space-between; align-items:center;
+    display:flex; justify-content:space-between; align-items:center; gap:10px;
     font-size:0.88rem; padding:8px 0; border-bottom:1px solid rgba(0,0,0,0.06);
   }
   .cart-panel li button{background:none; border:none; color:#c0392b; cursor:pointer; font-size:0.9rem;}
-  .cart-empty{font-size:0.85rem; color:#888;}
+  .cart-empty{font-size:0.85rem; color:#888; margin-bottom:12px;}
   .cart-total{font-weight:700; margin-bottom:14px;}
   .cart-close{position:absolute; top:14px; right:16px; background:none; border:none; font-size:1.2rem; cursor:pointer;}
 
+  /* ---------- MARCHÉ DES CLIENTS ---------- */
+  .market-toolbar{
+    display:flex; flex-wrap:wrap; align-items:center; gap:18px;
+    margin-bottom:36px; padding:20px; background:var(--porcelain);
+    border-radius:14px; border:1px solid rgba(27,31,42,0.08);
+  }
+  .market-note{font-size:0.85rem; color:#555; max-width:52ch;}
+  .market-grid{min-height:80px;}
+  .market-status{color:#666; font-size:0.9rem;}
+  .market-card{
+    background:var(--porcelain); border:1px solid rgba(27,31,42,0.08);
+    border-radius:14px; padding:22px; display:flex; flex-direction:column; gap:10px;
+  }
+  .market-card h3{font-family:'Inter',sans-serif; font-size:1.02rem; font-weight:800; line-height:1.25;}
+  .market-price{font-family:'IBM Plex Mono', monospace; color:var(--teal); font-weight:700; font-size:1.05rem;}
+  .market-desc{font-size:0.9rem; color:#555;}
+  .market-seller{font-size:0.82rem; color:#777; font-family:'IBM Plex Mono', monospace;}
+  .market-card .btn{align-self:flex-start; margin-top:4px; padding:10px 18px; font-size:0.85rem;}
+
+  /* ---------- ÉQUIPE ---------- */
+  .team-row{display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:20px;}
+  .team-card{
+    background:var(--white); border:1px solid rgba(27,31,42,0.08);
+    border-radius:16px; padding:32px 26px; text-align:center;
+  }
+  .team-card img{
+    width:96px; height:96px; border-radius:50%; object-fit:cover;
+    border:3px solid var(--teal); margin-bottom:16px;
+  }
+  .team-card .divider{font-size:0.85rem; color:var(--teal); letter-spacing:0.05em; margin-bottom:14px;}
+  .team-bio{font-weight:700; font-size:1rem; color:var(--charcoal); margin-bottom:4px;}
+  .team-role{font-size:0.88rem; color:#666; margin-bottom:18px;}
+  .team-links{display:flex; flex-direction:column; gap:8px; align-items:center;}
+  .team-links a{
+    font-family:'IBM Plex Mono', monospace; font-size:0.82rem; font-weight:600;
+    color:var(--navy); border-bottom:2px solid var(--marigold); padding-bottom:2px;
+  }
+  .team-links a:hover{color:var(--teal); border-color:var(--teal);}
+
   /* ---------- PARTENAIRE ---------- */
-  .partner-section{background:#0B3234; color:var(--white);}
+  section.canal.partner-section{background:#0B3234; color:var(--white);}
+  .partner-section .canal-tag{color:var(--marigold);}
+  .partner-section h2{color:#fff; margin-bottom:18px;}
   .partner-logos{display:flex; align-items:center; gap:18px; margin-bottom:22px; flex-wrap:wrap;}
   .partner-logos img{height:48px; border-radius:8px; background:#fff; padding:6px 10px;}
-  .partner-badge{
-    font-family:'IBM Plex Mono', monospace; font-size:0.78rem; color:rgba(255,255,255,0.55);
-    border:1px dashed rgba(255,255,255,0.3); border-radius:8px; padding:12px 14px;
-  }
+  .partner-text{max-width:60ch; color:rgba(255,255,255,0.85); margin-bottom:24px;}
+  .partner-photo{margin-bottom:14px; max-width:640px;}
+  .partner-photo img{width:100%; border-radius:14px; box-shadow:0 12px 28px rgba(0,0,0,0.3); display:block;}
+  .partner-album{font-size:0.88rem; color:rgba(255,255,255,0.7); max-width:640px; margin-bottom:18px;}
+  .partner-album a{color:var(--teal); border-bottom:1px solid rgba(20,184,172,0.4);}
   .partner-links{display:flex; flex-wrap:wrap; gap:18px; margin-top:18px;}
-  .partner-links a{color:var(--teal); font-weight:600; border-bottom:1px solid rgba(23,163,152,0.4);}
+  .partner-links a{color:var(--teal); font-weight:600; border-bottom:1px solid rgba(20,184,172,0.4);}
   .partner-links a:hover{color:var(--marigold); border-color:var(--marigold);}
 
-  /* ---------- FLOATING WHATSAPP ---------- */
+  /* ---------- FOOTER ---------- */
+  .footer-logo-card{
+    display:inline-block; background:var(--white); border-radius:14px;
+    padding:14px 22px; margin-bottom:18px;
+  }
+  .footer-logo-card img{height:52px; width:auto; display:block;}
+  footer{background:var(--navy); color:rgba(255,255,255,0.8); padding:72px 0 32px;}
+  .foot-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:40px; margin-bottom:48px;}
+  @media (max-width:720px){.foot-grid{grid-template-columns:1fr; gap:32px;}}
+  footer h4{font-family:'IBM Plex Mono', monospace; font-size:0.78rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--marigold); margin-bottom:16px; font-weight:600;}
+  footer p{font-size:0.92rem; margin-bottom:8px;}
+  footer ul{list-style:none;}
+  footer li{margin-bottom:10px; font-size:0.92rem;}
+  footer li a:hover{color:var(--white);}
+  .footer-fb{color:var(--teal); font-weight:600; border-bottom:1px solid rgba(20,184,172,0.4);}
+  .legal{
+    border-top:1px solid rgba(255,255,255,0.12); padding-top:24px;
+    font-family:'IBM Plex Mono', monospace; font-size:0.76rem; color:rgba(255,255,255,0.55);
+    display:flex; flex-wrap:wrap; gap:8px 24px;
+  }
+
+  /* ---------- WHATSAPP FLOTTANT ---------- */
   .float-wa{
     position:fixed; bottom:22px; right:22px; z-index:200;
     background:var(--teal); color:var(--white);
     width:58px; height:58px; border-radius:50%;
     display:flex; align-items:center; justify-content:center;
-    box-shadow:0 8px 22px rgba(23,163,152,0.45);
+    box-shadow:0 8px 22px rgba(20,184,172,0.45);
     transition:transform 0.15s ease;
   }
   .float-wa:hover{transform:scale(1.08);}
   .float-wa:focus-visible{outline:3px solid var(--marigold); outline-offset:3px;}
 
   @media (max-width:600px){
-    .hero{padding:120px 0 72px;}
+    .hero{padding:64px 0 72px;}
     .signal{opacity:0.25; width:280px; height:280px;}
+    .infobar{font-size:0.7rem;}
+    .infobar .wrap{gap:3px 16px;}
   }
 </style>
 </head>
 <body>
+
+<!-- Bandeau d'identité légale de l'entreprise -->
+<div class="infobar">
+  <div class="wrap">
+    <span><b>RCCM</b> BBO/RCCM/25-A-1950</span>
+    <span><b>ID NAT</b> 19-G4701-N74403X</span>
+    <a href="mailto:companylkb@gmail.com"><b>Email</b> companylkb@gmail.com</a>
+  </div>
+</div>
 
 <div class="topbar">
   <div class="wrap">
@@ -415,10 +420,10 @@
   <div class="wrap">
     <div class="eyebrow">Ets LKB Company — RDC · Rwanda · Burundi</div>
     <h1>Un seul contact.<br><em>Six canaux</em> de service.</h1>
-    <p>Abonnements Canal+, accessoires électroniques en gros et détail, impression sur supports, design, formation et création de sites web — tout se règle sur WhatsApp, directement avec nous.</p>
+    <p>Boutique en ligne, abonnements Canal+, accessoires électroniques en gros et détail, impression sur supports, design, formation et création de sites web — tout se règle sur WhatsApp, directement avec nous.</p>
     <div class="hero-ctas">
       <a class="btn btn-primary" href="https://wa.me/243975140465" target="_blank" rel="noopener">Écrire sur WhatsApp →</a>
-      <a class="btn btn-ghost" href="#canal-01">Voir les services</a>
+      <a class="btn btn-ghost" href="#vitrine">Voir la boutique</a>
     </div>
     <div class="hero-countries">
       <span class="chip">🇨🇩 RD Congo</span>
@@ -428,34 +433,82 @@
   </div>
 </header>
 
-<!-- CANAL 01 — ABONNEMENTS CANAL+ -->
-<section class="canal" id="canal-01">
+<!-- CANAL 01 — BOUTIQUE EN LIGNE -->
+<section class="canal" id="vitrine">
   <div class="wrap">
     <div class="bars"><span></span><span></span><span></span><span></span><span></span></div>
     <div class="canal-head">
       <div>
-        <div class="canal-tag">CANAL 01 — ABONNEMENTS TV</div>
+        <div class="canal-tag">CANAL 01 — BOUTIQUE EN LIGNE</div>
+        <h2>La Vitrine LKB</h2>
+      </div>
+      <p class="canal-sub">Ajoutez vos articles au panier, puis envoyez la commande sur WhatsApp. Pas de paiement en ligne : une confirmation rapide avec nous, et c'est réglé.</p>
+    </div>
+    <div class="grid">
+      <div class="product-card">
+        <img src="assets/smartwatch.jpg" alt="Montre connectée et écouteurs" loading="lazy">
+        <div class="product-body">
+          <h3>Montre connectée + écouteurs</h3>
+          <span class="product-price">24 $</span>
+          <button type="button" class="add-cart-btn" onclick="addToCart('Montre connectée + écouteurs', 24)">Ajouter au panier</button>
+        </div>
+      </div>
+      <div class="product-card">
+        <img src="assets/canal_kit.jpg" alt="Kit complet Canal+ Rwanda" loading="lazy">
+        <div class="product-body">
+          <h3>Kit complet Canal+ Rwanda</h3>
+          <span class="product-price">15 $</span>
+          <button type="button" class="add-cart-btn" onclick="addToCart('Kit complet Canal+ Rwanda', 15)">Ajouter au panier</button>
+        </div>
+      </div>
+      <div class="product-card">
+        <img src="assets/tirchet.jpg" alt="T-shirt personnalisé LKB" loading="lazy">
+        <div class="product-body">
+          <h3>T-shirt personnalisé</h3>
+          <span class="product-price">5 $</span>
+          <button type="button" class="add-cart-btn" onclick="addToCart('T-shirt personnalisé', 5)">Ajouter au panier</button>
+        </div>
+      </div>
+      <div class="product-card">
+        <img src="assets/impression_bache.jpg" alt="Impression sur bâche" loading="lazy">
+        <div class="product-body">
+          <h3>Impression sur bâche (par m²)</h3>
+          <span class="product-price">7 $</span>
+          <button type="button" class="add-cart-btn" onclick="addToCart('Impression sur bâche (1 m²)', 7)">Ajouter au panier</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CANAL 02 — ABONNEMENTS CANAL+ -->
+<section class="canal" id="canal-plus">
+  <div class="wrap">
+    <div class="bars"><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="canal-head">
+      <div>
+        <div class="canal-tag">CANAL 02 — ABONNEMENTS TV</div>
         <h2>Réabonnement Canal+</h2>
       </div>
       <p class="canal-sub">Renouvelez votre décodeur rapidement, où que vous soyez dans la sous-région. Un message, une confirmation, c'est réglé.</p>
     </div>
     <div class="promo-visuals">
-      <img src="assets/canal_tarif.jpg" alt="Tarification Canal+ Rwanda, Congo et Burundi">
-      <img src="assets/canal_kit.jpg" alt="Kit complet Canal+ Rwanda : décodeur, parabole et accessoires">
+      <img src="assets/canal_tarif.jpg" alt="Tarification Canal+ Rwanda, Congo et Burundi" loading="lazy">
+      <img src="assets/canal_kit.jpg" alt="Kit complet Canal+ Rwanda : décodeur, parabole et accessoires" loading="lazy">
     </div>
     <div class="country-row">
       <div class="country-card">
-        <span class="tag" style="background:rgba(255,255,255,0.1); color:#fff;">🇨🇩 CONGO</span>
+        <span class="tag">🇨🇩 CONGO</span>
         <h3>Canal+ RD Congo</h3>
         <a class="btn btn-primary" href="https://wa.me/243975140465?text=Bonjour%2C%20je%20souhaite%20r%C3%A9abonner%20mon%20d%C3%A9codeur%20Canal%2B%20Congo" target="_blank" rel="noopener">Se réabonner</a>
       </div>
       <div class="country-card">
-        <span class="tag" style="background:rgba(255,255,255,0.1); color:#fff;">🇷🇼 RWANDA</span>
+        <span class="tag">🇷🇼 RWANDA</span>
         <h3>Canal+ Rwanda</h3>
         <a class="btn btn-primary" href="https://wa.me/243975140465?text=Bonjour%2C%20je%20souhaite%20r%C3%A9abonner%20mon%20d%C3%A9codeur%20Canal%2B%20Rwanda" target="_blank" rel="noopener">Se réabonner</a>
       </div>
       <div class="country-card">
-        <span class="tag" style="background:rgba(255,255,255,0.1); color:#fff;">🇧🇮 BURUNDI</span>
+        <span class="tag">🇧🇮 BURUNDI</span>
         <h3>Canal+ Burundi</h3>
         <a class="btn btn-primary" href="https://wa.me/243975140465?text=Bonjour%2C%20je%20souhaite%20r%C3%A9abonner%20mon%20d%C3%A9codeur%20Canal%2B%20Burundi" target="_blank" rel="noopener">Se réabonner</a>
       </div>
@@ -463,18 +516,18 @@
   </div>
 </section>
 
-<!-- CANAL 02 — ELECTRONIQUE -->
-<section class="canal" id="canal-02">
+<!-- CANAL 03 — ÉLECTRONIQUE -->
+<section class="canal" id="electronique">
   <div class="wrap">
     <div class="bars"><span></span><span></span><span></span><span></span><span></span></div>
     <div class="canal-head">
       <div>
-        <div class="canal-tag">CANAL 02 — BOUTIQUE ÉLECTRONIQUE</div>
+        <div class="canal-tag">CANAL 03 — ÉLECTRONIQUE</div>
         <h2>Accessoires en gros &amp; détail</h2>
       </div>
       <p class="canal-sub">Revendeurs, boutiques et particuliers : mêmes produits, prix adaptés à la quantité.</p>
     </div>
-    <img class="promo-banner" src="assets/smartwatch.jpg" alt="Montres intelligentes et écouteurs sans fil LKB Company">
+    <img class="promo-banner" src="assets/smartwatch.jpg" alt="Montres intelligentes et écouteurs sans fil LKB Company" loading="lazy">
     <div class="grid">
       <div class="card">
         <h3>Montres intelligentes</h3>
@@ -509,20 +562,20 @@
   </div>
 </section>
 
-<!-- CANAL 03 — IMPRESSION & DESIGN -->
-<section class="canal" id="canal-03">
+<!-- CANAL 04 — IMPRESSION & DESIGN -->
+<section class="canal" id="impression">
   <div class="wrap">
     <div class="bars"><span></span><span></span><span></span><span></span><span></span></div>
     <div class="canal-head">
       <div>
-        <div class="canal-tag">CANAL 03 — IMPRESSION &amp; DESIGN</div>
+        <div class="canal-tag">CANAL 04 — IMPRESSION &amp; DESIGN</div>
         <h2>Impression sur supports &amp; conception graphique</h2>
       </div>
       <p class="canal-sub">Pour votre marque, votre événement ou votre équipe.</p>
     </div>
     <div class="promo-visuals">
-      <img src="assets/tirchet.jpg" alt="Impression personnalisée sur t-shirts LKB Company">
-      <img src="assets/impression_bache.jpg" alt="Impression sur bâche 7$ par mètre carré LKB Company">
+      <img src="assets/tirchet.jpg" alt="Impression personnalisée sur t-shirts LKB Company" loading="lazy">
+      <img src="assets/impression_bache.jpg" alt="Impression sur bâche 7$ par mètre carré LKB Company" loading="lazy">
     </div>
     <div class="grid">
       <div class="card">
@@ -539,13 +592,13 @@
   </div>
 </section>
 
-<!-- CANAL 04 — FORMATION & WEB -->
-<section class="canal" id="canal-04">
+<!-- CANAL 05 — FORMATION & SITES WEB -->
+<section class="canal" id="formation">
   <div class="wrap">
     <div class="bars"><span></span><span></span><span></span><span></span><span></span></div>
     <div class="canal-head">
       <div>
-        <div class="canal-tag">CANAL 04 — FORMATION &amp; SITES WEB</div>
+        <div class="canal-tag">CANAL 05 — FORMATION &amp; SITES WEB</div>
         <h2>Apprenez ou faites-vous accompagner</h2>
       </div>
       <p class="canal-sub">Montez en compétence ou confiez-nous votre présence en ligne.</p>
@@ -565,68 +618,43 @@
   </div>
 </section>
 
-<!-- CANAL 05 — BOUTIQUE -->
-<section class="canal" id="canal-boutique">
+<!-- CANAL 06 — MARCHÉ DES CLIENTS -->
+<section class="canal" id="marche">
   <div class="wrap">
     <div class="bars"><span></span><span></span><span></span><span></span><span></span></div>
     <div class="canal-head">
       <div>
-        <div class="canal-tag">CANAL 05 — BOUTIQUE EN LIGNE</div>
-        <h2>Composez votre commande</h2>
+        <div class="canal-tag">CANAL 06 — MARCHÉ DES CLIENTS</div>
+        <h2>Vendez et achetez entre particuliers</h2>
       </div>
-      <p class="canal-sub">Ajoutez vos articles au panier, puis envoyez la commande directement sur WhatsApp — pas de paiement en ligne, juste une confirmation rapide avec nous.</p>
+      <p class="canal-sub">Un espace où nos clients proposent leurs propres articles. Chaque annonce est vérifiée par notre équipe avant publication.</p>
     </div>
-    <div class="grid">
-      <div class="product-card">
-        <img src="assets/smartwatch.jpg" alt="Montre connectée et écouteurs">
-        <div class="product-body">
-          <h3>Montre connectée + écouteurs</h3>
-          <span class="product-price">24 $</span>
-          <button class="add-cart-btn" onclick="addToCart('Montre connectée + écouteurs', 24)">Ajouter au panier</button>
-        </div>
-      </div>
-      <div class="product-card">
-        <img src="assets/canal_kit.jpg" alt="Kit complet Canal+ Rwanda">
-        <div class="product-body">
-          <h3>Kit complet Canal+ Rwanda</h3>
-          <span class="product-price">15 $</span>
-          <button class="add-cart-btn" onclick="addToCart('Kit complet Canal+ Rwanda', 15)">Ajouter au panier</button>
-        </div>
-      </div>
-      <div class="product-card">
-        <img src="assets/tirchet.jpg" alt="T-shirt personnalisé LKB">
-        <div class="product-body">
-          <h3>T-shirt personnalisé</h3>
-          <span class="product-price">5 $</span>
-          <button class="add-cart-btn" onclick="addToCart('T-shirt personnalisé', 5)">Ajouter au panier</button>
-        </div>
-      </div>
-      <div class="product-card">
-        <img src="assets/impression_bache.jpg" alt="Impression sur bâche">
-        <div class="product-body">
-          <h3>Impression sur bâche (par m²)</h3>
-          <span class="product-price">7 $</span>
-          <button class="add-cart-btn" onclick="addToCart('Impression sur bâche (1m²)', 7)">Ajouter au panier</button>
-        </div>
-      </div>
+
+    <div class="market-toolbar">
+      <a id="market-form-btn" class="btn btn-primary" href="#marche" target="_blank" rel="noopener">Publier mon article →</a>
+      <p class="market-note">Les transactions se font directement entre vous et le vendeur, via WhatsApp. LKB Company met en relation mais n'est pas partie à la vente : vérifiez l'article avant tout paiement.</p>
+    </div>
+
+    <div id="market-grid" class="grid market-grid" aria-live="polite">
+      <p class="market-status">Chargement des annonces…</p>
     </div>
   </div>
 </section>
 
-<!-- CANAL 05B — L'ÉQUIPE -->
-<section class="canal" id="canal-05">
+<!-- L'ÉQUIPE -->
+<section class="canal" id="equipe">
   <div class="wrap">
     <div class="bars"><span></span><span></span><span></span><span></span><span></span></div>
     <div class="canal-head">
       <div>
-        <div class="canal-tag">CANAL 06 — L'ÉQUIPE</div>
+        <div class="canal-tag">L'ÉQUIPE</div>
         <h2>Derrière LKB Company</h2>
       </div>
       <p class="canal-sub">Les personnes qui répondent à vos messages et font tourner la boutique au quotidien.</p>
     </div>
     <div class="team-row">
       <div class="team-card">
-        <img src="assets/abel.jpeg" alt="Imara Kabiona Abel">
+        <img src="assets/abel.jpeg" alt="Imara Kabiona Abel" loading="lazy">
         <div class="divider">━━━━━ ✦ ✧ ✦ ━━━━━</div>
         <p class="team-bio">↳ Je suis Imara Kabiona Abel.</p>
         <p class="team-role">Chargé Marketing – Ets LKB Company</p>
@@ -636,7 +664,7 @@
         </div>
       </div>
       <div class="team-card">
-        <img src="assets/daniella.jpg" alt="Furaha Ngabo Daniella">
+        <img src="assets/daniella.jpg" alt="Furaha Ngabo Daniella" loading="lazy">
         <div class="divider">━━━━━ ✦ ✧ ✦ ━━━━━</div>
         <p class="team-bio">↳ Furaha Ngabo Daniella.</p>
         <p class="team-role">Chargée caissière – Ets LKB Company</p>
@@ -647,41 +675,25 @@
     </div>
   </div>
 </section>
-<!-- CANAL 07 — MARCHÉ DES CLIENTS -->
-<section class="canal" id="canal-marche">
-  <div class="wrap">
-    <div class="bars"><span></span><span></span><span></span><span></span><span></span></div>
-    <div class="canal-head">
-      <div>
-        <div class="canal-tag">CANAL 07 — MARCHÉ DES CLIENTS</div>
-        <h2>Vendez et achetez entre particuliers</h2>
-      </div>
-      <p class="canal-sub">Un espace où nos clients peuvent proposer leurs propres articles. Chaque annonce est vérifiée par notre équipe avant publication.</p>
-    </div>
 
-    <div class="market-toolbar">
-      <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSfuLiEeE-rTbq6kv3oge7ByCzWLi6Mb5-561DQY_4_90rHDgA/viewform?usp=publish-editor" target="_blank" rel="noopener">Publier mon article →</a>
-      <p class="market-note">Les transactions se font directement entre vous et le vendeur, via WhatsApp. LKB Company met en relation mais n'est pas partie à la vente — vérifiez l'article avant tout paiement.</p>
-    </div>
-
-    <div id="market-grid" class="grid market-grid">
-      <p class="market-loading">Chargement des annonces…</p>
-    </div>
-  </div>
-</section>
 <!-- PARTENAIRE — GENDERCHAIN -->
 <section class="canal partner-section" id="genderchain">
   <div class="wrap">
     <div class="bars"><span></span><span></span><span></span><span></span><span></span></div>
-    <div class="canal-tag" style="color:var(--marigold);">PARTENAIRE</div>
-    <h2 style="color:#fff; margin-bottom:18px;">GenderChain RDC</h2>
+    <div class="canal-tag">PARTENAIRE</div>
+    <h2>GenderChain RDC</h2>
     <div class="partner-logos">
-      <img src="assets/logo_full.jpg" alt="LKB Company">
-      <img src="assets/logo_genderchain.jpg" alt="GenderChain">
+      <img src="assets/logo_full.jpg" alt="LKB Company" loading="lazy">
+      <img src="assets/logo_genderchain.jpg" alt="GenderChain" loading="lazy">
     </div>
-    <p style="max-width:60ch; color:rgba(255,255,255,0.85); margin-bottom:24px;">Nous sommes fiers de soutenir GenderChain RDC, une initiative dédiée à sensibiliser, éduquer et intégrer des pratiques inclusives dans la nouvelle technologie, en mettant l'accent sur l'égalité des genres et l'autonomisation des femmes dans les nouvelles technologies.</p>
-    <img src="assets/filles_genderchain.jpg" alt="Équipe de femmes GenderChain RDC" style="width:100%; max-width:640px; border-radius:14px; box-shadow:0 12px 28px rgba(0,0,0,0.3); display:block; margin-bottom:10px;">
-    <p style="font-size:0.85rem; color:rgba(255,255,255,0.6); max-width:640px; margin-bottom:18px;">Visualisez l'album complet de nos réalisations en images <a href="https://drive.google.com/drive/folders/11ouAMeg_yeRytmIMrB0fHWx76QgIXDMT?usp=drive_link" target="_blank" rel="noopener" style="color:var(--teal); border-bottom:1px solid rgba(23,163,152,0.4);">en cliquant ici</a>.</p>
+    <p class="partner-text">Nous sommes fiers de soutenir GenderChain RDC, une initiative dédiée à sensibiliser, éduquer et intégrer des pratiques inclusives dans la nouvelle technologie, en mettant l'accent sur l'égalité des genres et l'autonomisation des femmes dans les nouvelles technologies.</p>
+
+    <!-- Si la photo ne charge pas (nom de fichier incorrect), tout le bloc photo disparaît proprement -->
+    <figure class="partner-photo">
+      <img src="assets/filles_genderchain.jpg" alt="Équipe de femmes GenderChain RDC" loading="lazy" onerror="this.closest('figure').remove()">
+    </figure>
+
+    <p class="partner-album">Visualisez l'album complet de nos réalisations en images <a href="https://drive.google.com/drive/folders/11ouAMeg_yeRytmIMrB0fHWx76QgIXDMT?usp=drive_link" target="_blank" rel="noopener">en cliquant ici</a>.</p>
     <div class="partner-links">
       <a href="https://drive.google.com/drive/folders/11ouAMeg_yeRytmIMrB0fHWx76QgIXDMT?usp=drive_link" target="_blank" rel="noopener">Visualiser nos réalisations en images →</a>
       <a href="https://www.facebook.com/imarakabionaabel" target="_blank" rel="noopener">Page Facebook →</a>
@@ -695,7 +707,7 @@
     <div class="foot-grid">
       <div>
         <div class="footer-logo-card"><img src="assets/logo_full.jpg" alt="LKB Company"></div>
-        <p>Abonnements Canal+, électronique, impression, design, formation et sites web — un seul contact pour la RDC, le Rwanda et le Burundi.</p>
+        <p>Boutique en ligne, abonnements Canal+, électronique, impression, design, formation et sites web — un seul contact pour la RDC, le Rwanda et le Burundi.</p>
       </div>
       <div>
         <h4>Contact</h4>
@@ -703,14 +715,14 @@
           <li>📞 +243 975140465</li>
           <li>📞 +243 840485208</li>
           <li>📞 +243 823 620 007</li>
-          <li>✉️ companylkb@gmail.com</li>
+          <li>✉️ <a href="mailto:companylkb@gmail.com">companylkb@gmail.com</a></li>
         </ul>
       </div>
       <div>
         <h4>Rejoindre</h4>
         <a class="btn btn-primary" href="https://wa.me/243975140465" target="_blank" rel="noopener" style="margin-bottom:12px;">Écrire sur WhatsApp →</a>
         <p style="margin-top:14px; margin-bottom:6px;">Suivez notre page pour ne rien rater de nos nouveautés :</p>
-        <a href="https://www.facebook.com/share/1BTuj5TMg1/?mibextid=wwXIfr" target="_blank" rel="noopener" style="color:var(--teal); font-weight:600; border-bottom:1px solid rgba(23,163,152,0.4);">Facebook LKB Company →</a>
+        <a class="footer-fb" href="https://www.facebook.com/share/1BTuj5TMg1/?mibextid=wwXIfr" target="_blank" rel="noopener">Facebook LKB Company →</a>
       </div>
     </div>
     <div class="legal">
@@ -723,27 +735,31 @@
 </footer>
 
 <a class="float-wa" href="https://wa.me/243975140465" target="_blank" rel="noopener" aria-label="Contacter LKB Company sur WhatsApp">
-  <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.44.79 3.07 1.2 4.73 1.2h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm5.8 14.05c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.12.11-1.8-.11-.42-.13-.95-.31-1.64-.6-2.88-1.24-4.76-4.14-4.9-4.33-.14-.19-1.17-1.56-1.17-2.97 0-1.41.74-2.1 1-2.39.26-.29.57-.36.76-.36.19 0 .38 0 .55.01.18.01.42-.07.65.5.24.58.81 2 .88 2.14.07.14.12.31.02.5-.1.19-.15.31-.29.48-.14.17-.3.38-.43.51-.14.14-.29.29-.12.57.17.29.75 1.24 1.61 2.01 1.11.99 2.04 1.3 2.33 1.44.29.14.46.12.63-.07.17-.19.72-.84.91-1.13.19-.29.38-.24.63-.14.26.1 1.65.78 1.93.92.29.14.48.22.55.34.07.13.07.72-.17 1.4z"/></svg>
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.44.79 3.07 1.2 4.73 1.2h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm5.8 14.05c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.12.11-1.8-.11-.42-.13-.95-.31-1.64-.6-2.88-1.24-4.76-4.14-4.9-4.33-.14-.19-1.17-1.56-1.17-2.97 0-1.41.74-2.1 1-2.39.26-.29.57-.36.76-.36.19 0 .38 0 .55.01.18.01.42-.07.65.5.24.58.81 2 .88 2.14.07.14.12.31.02.5-.1.19-.15.31-.29.48-.14.17-.3.38-.43.51-.14.14-.29.29-.12.57.17.29.75 1.24 1.61 2.01 1.11.99 2.04 1.3 2.33 1.44.29.14.46.12.63-.07.17-.19.72-.84.91-1.13.19-.29.38-.24.63-.14.26.1 1.65.78 1.93.92.29.14.48.22.55.34.07.13.07.72-.17 1.4z"/></svg>
 </a>
 
-<button class="cart-fab" onclick="toggleCart()" aria-label="Voir mon panier">
+<button type="button" class="cart-fab" onclick="toggleCart()" aria-label="Voir mon panier">
   🛒<span class="cart-badge" id="cart-count">0</span>
 </button>
 
 <div class="cart-panel" id="cart-panel">
-  <button class="cart-close" onclick="toggleCart()" aria-label="Fermer">✕</button>
+  <button type="button" class="cart-close" onclick="toggleCart()" aria-label="Fermer le panier">✕</button>
   <h3>Votre panier</h3>
   <ul id="cart-items"></ul>
   <p id="cart-empty-msg" class="cart-empty">Votre panier est vide pour l'instant.</p>
   <p class="cart-total">Total estimé : <span id="cart-total">0</span> $</p>
-  <a class="btn btn-primary" style="width:100%; justify-content:center;" onclick="checkoutWhatsapp()">Commander via WhatsApp →</a>
+  <button type="button" class="btn btn-primary btn-block" onclick="checkoutWhatsapp()">Commander via WhatsApp →</button>
 </div>
 
+<!-- ============================================================
+     SCRIPT 1 — PANIER (envoie la commande sur WhatsApp)
+     ============================================================ -->
 <script>
+  const WHATSAPP_NUMBER = '243975140465';
   let cart = [];
 
   function addToCart(name, price){
-    cart.push({name, price});
+    cart.push({name: name, price: price});
     updateCartUI();
     document.getElementById('cart-panel').classList.add('open');
   }
@@ -756,16 +772,23 @@
   function updateCartUI(){
     document.getElementById('cart-count').textContent = cart.length;
     const list = document.getElementById('cart-items');
-    const emptyMsg = document.getElementById('cart-empty-msg');
-    list.innerHTML = '';
+    list.textContent = '';
     let total = 0;
-    cart.forEach((item, i) => {
+    cart.forEach(function(item, i){
       total += item.price;
       const li = document.createElement('li');
-      li.innerHTML = item.name + ' — ' + item.price + ' $ <button onclick="removeFromCart(' + i + ')">✕</button>';
+      const label = document.createElement('span');
+      label.textContent = item.name + ' — ' + item.price + ' $';
+      const del = document.createElement('button');
+      del.type = 'button';
+      del.textContent = '✕';
+      del.setAttribute('aria-label', 'Retirer ' + item.name);
+      del.addEventListener('click', function(){ removeFromCart(i); });
+      li.appendChild(label);
+      li.appendChild(del);
       list.appendChild(li);
     });
-    emptyMsg.style.display = cart.length === 0 ? 'block' : 'none';
+    document.getElementById('cart-empty-msg').style.display = cart.length === 0 ? 'block' : 'none';
     document.getElementById('cart-total').textContent = total.toFixed(2);
   }
 
@@ -774,18 +797,134 @@
   }
 
   function checkoutWhatsapp(){
-    if(cart.length === 0){
+    if (cart.length === 0){
       alert('Votre panier est vide. Ajoutez au moins un article avant de commander.');
       return;
     }
-    let msg = 'Bonjour, je souhaite commander :%0A';
-    cart.forEach(item => { msg += '- ' + item.name + ' (' + item.price + '$)%0A'; });
-    const total = cart.reduce((s, i) => s + i.price, 0);
-    msg += 'Total estime : ' + total.toFixed(2) + '$';
-    window.open('https://wa.me/243975140465?text=' + msg, '_blank');
+    const lines = ['Bonjour, je souhaite commander :'];
+    let total = 0;
+    cart.forEach(function(item){
+      lines.push('- ' + item.name + ' (' + item.price + ' $)');
+      total += item.price;
+    });
+    lines.push('Total estimé : ' + total.toFixed(2) + ' $');
+    window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(lines.join('\n')), '_blank');
   }
 
   updateCartUI();
+</script>
+
+<!-- ============================================================
+     SCRIPT 2 — MARCHÉ DES CLIENTS (Google Form + Google Sheet)
+     ============================================================ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script>
+(function(){
+
+  /* >>>>>>>>>>>  À REMPLIR : SEULEMENT CES DEUX LIGNES  <<<<<<<<<<<
+     1) Lien de partage de ton Google Form
+     2) Lien CSV publié de ton Google Sheet (Fichier > Partager > Publier sur le Web > CSV) */
+  var MARKET_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfuLiEeE-rTbq6kv3oge7ByCzWLi6Mb5-561DQY_4_90rHDgA/viewform";
+  var MARKET_CSV_URL  = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRsanHLvgBT3khXzC75za7GXjxocvddfG6ChKNJkIqAzwi1B-zfhLUMwqtkupa-y5DGIb78Om-GHJY6/pub?gid=1805852620&single=true&output=csv";
+  /* >>>>>>>>>>>  NE RIEN MODIFIER EN DESSOUS  <<<<<<<<<<< */
+
+  var grid = document.getElementById('market-grid');
+  var formBtn = document.getElementById('market-form-btn');
+
+  function isConfigured(url){
+    return typeof url === 'string' && /^https?:\/\//.test(url) && url.indexOf('COLLE_ICI') === -1;
+  }
+
+  function status(text){
+    grid.textContent = '';
+    var p = document.createElement('p');
+    p.className = 'market-status';
+    p.textContent = text;
+    grid.appendChild(p);
+  }
+
+  function el(tag, cls, text){
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+
+  // Compare les noms de colonnes sans tenir compte des accents, majuscules ou espaces
+  function norm(s){
+    return (s || '').toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase();
+  }
+  function pick(row, name){
+    var target = norm(name);
+    for (var k in row){
+      if (norm(k) === target) return (row[k] || '').toString().trim();
+    }
+    return '';
+  }
+
+  if (isConfigured(MARKET_FORM_URL)){
+    formBtn.href = MARKET_FORM_URL;
+  } else {
+    formBtn.style.display = 'none';
+  }
+
+  function render(rows){
+    var valid = rows.filter(function(r){
+      return norm(pick(r, 'Statut')) === 'valide';
+    }).reverse(); // annonces les plus récentes en premier
+
+    if (valid.length === 0){
+      status('Aucune annonce publiée pour le moment. Soyez le premier à proposer un article !');
+      return;
+    }
+
+    grid.textContent = '';
+    valid.forEach(function(r){
+      var nom   = pick(r, 'Nom complet') || 'Vendeur';
+      var titre = pick(r, 'Titre') || 'Article';
+      var cat   = pick(r, 'Categorie');
+      var prix  = pick(r, 'Prix').replace(/[^0-9.,]/g, '');
+      var desc  = pick(r, 'Description').slice(0, 240);
+      var wa    = pick(r, 'WhatsApp').replace(/[^0-9]/g, '');
+      if (wa.charAt(0) === '0') wa = '243' + wa.slice(1); // 0997... devient 243997...
+
+      var card = el('div', 'market-card');
+      if (cat)  card.appendChild(el('span', 'tag', cat));
+      card.appendChild(el('h3', null, titre));
+      if (prix) card.appendChild(el('span', 'market-price', prix + ' $'));
+      if (desc) card.appendChild(el('p', 'market-desc', desc));
+      card.appendChild(el('span', 'market-seller', 'Vendu par ' + nom));
+
+      if (wa){
+        var msg = 'Bonjour ' + nom + ', je suis intéressé(e) par votre annonce "' + titre + '" vue sur le site LKB Company.';
+        var a = el('a', 'btn btn-primary', 'Contacter le vendeur →');
+        a.href = 'https://wa.me/' + wa + '?text=' + encodeURIComponent(msg);
+        a.target = '_blank';
+        a.rel = 'noopener';
+        card.appendChild(a);
+      }
+      grid.appendChild(card);
+    });
+  }
+
+  if (!isConfigured(MARKET_CSV_URL)){
+    status('Le marché des clients ouvre bientôt.');
+    return;
+  }
+  if (typeof Papa === 'undefined'){
+    status('Impossible de charger les annonces pour le moment. Vérifiez votre connexion et rechargez la page.');
+    return;
+  }
+
+  Papa.parse(MARKET_CSV_URL, {
+    download: true,
+    header: true,
+    skipEmptyLines: true,
+    complete: function(results){ render(results.data); },
+    error: function(){ status('Impossible de charger les annonces pour le moment. Rechargez la page dans quelques instants.'); }
+  });
+
+})();
 </script>
 
 </body>

@@ -389,6 +389,30 @@
     .infobar{font-size:0.7rem;}
     .infobar .wrap{gap:3px 16px;}
   }
+
+  /* ---------- AVIS CLIENTS ---------- */
+  .rev-sum{display:flex;flex-wrap:wrap;align-items:center;gap:14px 24px;margin-bottom:28px}
+  .rev-score{font-family:'Archivo Black',sans-serif;font-size:2.6rem;line-height:1;color:var(--navy)}
+  .rev-score small{font:600 .9rem 'IBM Plex Mono',monospace;color:#666;margin-left:6px}
+  .stars{color:var(--marigold);letter-spacing:2px;font-size:1.05rem;white-space:nowrap}
+  .rev-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;align-items:start}
+  .rev-card{background:var(--white);border:1px solid rgba(27,31,42,0.08);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:12px}
+  .rev-card p{font-size:.96rem;color:#333}
+  .rev-name{font-weight:700;font-size:.92rem}
+  .rev-name span{font-weight:400;color:#777}
+  .rev-empty{color:#555;font-size:.95rem;max-width:56ch}
+  .rev-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+
+  /* ---------- PROCESSUS DE COMMANDE ---------- */
+  .flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;counter-reset:st}
+  .flow-card{position:relative;background:var(--porcelain);border:1px solid rgba(27,31,42,0.08);border-radius:16px;padding:26px 22px 28px;text-align:center}
+  .flow-n{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--marigold);color:var(--navy);font:800 .9rem 'IBM Plex Mono',monospace;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;box-shadow:0 4px 10px rgba(242,169,59,.45)}
+  .flow-card svg{width:72px;height:72px;margin:10px auto 14px;display:block;fill:none;stroke:var(--navy);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+  .flow-card svg .ac{stroke:var(--teal)}
+  .flow-card h3{font-family:'Inter',sans-serif;font-weight:800;font-size:1.02rem;margin-bottom:8px;line-height:1.25}
+  .flow-card p{font-size:.9rem;color:#555}
+  @media(min-width:960px){.flow-card:not(:last-child)::after{content:"";position:absolute;top:50%;right:-17px;width:14px;height:14px;border-top:3px solid var(--teal);border-right:3px solid var(--teal);transform:translateY(-50%) rotate(45deg);opacity:.7}}
+  .flow-cta{text-align:center;margin-top:34px}
 </style>
 </head>
 <body>
@@ -481,6 +505,47 @@
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- COMMENT COMMANDER -->
+<section class="canal" id="commander">
+  <div class="wrap">
+    <div class="bars"><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="canal-head">
+      <div>
+        <div class="canal-tag">COMMENT ÇA MARCHE</div>
+        <h2>Le processus de commande chez LKB</h2>
+      </div>
+      <p class="canal-sub">Quatre étapes simples, sans compte à créer et sans paiement en ligne : tout se passe avec nous sur WhatsApp.</p>
+    </div>
+    <div class="flow">
+      <div class="flow-card">
+        <span class="flow-n">1</span>
+        <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="17" y="6" width="30" height="52" rx="6"/><path d="M27 52h10"/><path class="ac" d="M23 22h4l3 12h11l2-9H28"/><circle class="ac" cx="31" cy="40" r="1.6"/><circle class="ac" cx="38" cy="40" r="1.6"/></svg>
+        <h3>Choisissez votre produit</h3>
+        <p>Ajoutez vos articles au panier sur la Vitrine, puis envoyez la commande sur WhatsApp.</p>
+      </div>
+      <div class="flow-card">
+        <span class="flow-n">2</span>
+        <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M10 12h44a4 4 0 0 1 4 4v24a4 4 0 0 1-4 4H30l-12 10V44h-8a4 4 0 0 1-4-4V16a4 4 0 0 1 4-4Z"/><path class="ac" d="M22 28l7 7 13-14"/></svg>
+        <h3>Recevez la confirmation</h3>
+        <p>Nous vous confirmons la disponibilité, le prix total et les modalités de paiement.</p>
+      </div>
+      <div class="flow-card">
+        <span class="flow-n">3</span>
+        <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6 8 18v26l24 14 24-14V18L32 6Z"/><path d="M8 18l24 14 24-14M32 32v26"/><path class="ac" d="M20 12l24 14"/></svg>
+        <h3>Votre commande est préparée</h3>
+        <p>Nous préparons et vérifions vos articles avant de vous les remettre ou de les expédier.</p>
+      </div>
+      <div class="flow-card">
+        <span class="flow-n">4</span>
+        <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 60S12 40 12 25a20 20 0 0 1 40 0c0 15-20 35-20 35Z"/><circle class="ac" cx="32" cy="25" r="7"/></svg>
+        <h3>Récupérez votre produit</h3>
+        <p>Retirez-le auprès de nous à Goma ou recevez-le selon l'accord convenu, puis profitez-en !</p>
+      </div>
+    </div>
+    <div class="flow-cta"><a class="btn btn-primary" href="https://wa.me/243975140465?text=Bonjour%2C%20je%20souhaite%20passer%20une%20commande" target="_blank" rel="noopener">Commander sur WhatsApp →</a></div>
   </div>
 </section>
 
@@ -640,6 +705,27 @@
 
     <div id="market-grid" class="grid market-grid" aria-live="polite">
       <p class="market-status">Chargement des annonces…</p>
+    </div>
+  </div>
+</section>
+
+<!-- AVIS DES CLIENTS -->
+<section class="canal" id="avis">
+  <div class="wrap">
+    <div class="bars"><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="canal-head">
+      <div>
+        <div class="canal-tag">AVIS DES CLIENTS</div>
+        <h2>Ce que disent nos clients</h2>
+      </div>
+      <p class="canal-sub">Chaque avis vient d'un vrai client et est vérifié avant publication. Vous avez commandé chez nous ? Dites-nous ce que vous en pensez.</p>
+    </div>
+    <div id="rev-sum" class="rev-sum"></div>
+    <div id="rev-grid" class="rev-grid" aria-live="polite"></div>
+    <p style="text-align:center;margin-top:20px"><button type="button" id="rev-more" class="btn btn-ghost" style="display:none;color:var(--navy);border-color:rgba(27,31,42,.25)">Voir plus d'avis</button></p>
+    <div class="rev-actions">
+      <a id="avisFormBtn" class="btn btn-primary" target="_blank" rel="noopener" href="#avis">Donner mon avis →</a>
+      <a id="avisWaBtn" class="btn btn-ghost" style="color:var(--navy);border-color:rgba(27,31,42,.25)" target="_blank" rel="noopener" href="#avis">Répondre sur WhatsApp</a>
     </div>
   </div>
 </section>
@@ -1019,5 +1105,72 @@
 })();
 </script>
 
+<script>
+(function(){
+  /* >>>>>>>>>>>  À REMPLIR  <<<<<<<<<<<
+     1) AVIS_FORM_URL : lien de ton Google Form « Avis clients »
+     2) AVIS_CSV_URL  : lien CSV publié du Sheet lié à ce Form
+     3) AVIS_VERIFIES : avis RÉELS que tu as déjà reçus (WhatsApp, Facebook...) avec l'accord du client.
+        Format : {nom:"Prénom N.", ville:"Quartier", note:5, texte:"Message réel du client"},
+        Laisse vide [] tant que tu n'en as pas : n'invente jamais d'avis. */
+  var AVIS_FORM_URL = "COLLE_ICI_LE_LIEN_DU_FORM_AVIS";
+  var AVIS_CSV_URL  = "COLLE_ICI_LE_LIEN_CSV_AVIS";
+  var AVIS_VERIFIES = [
+  ];
+  var WA = "243975140465";
+  /* >>>>>>>>>>>  NE RIEN MODIFIER EN DESSOUS  <<<<<<<<<<< */
+
+  var grid=document.getElementById('rev-grid'),sum=document.getElementById('rev-sum'),moreBtn=document.getElementById('rev-more');
+  var all=[],shown=6;
+  function ok(u){return /^https?:\/\//.test(u)&&u.indexOf('COLLE_ICI')<0}
+  function norm(s){return (s||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase()}
+  function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!==undefined)e.textContent=x;return e}
+  function stars(n){return '★★★★★'.slice(0,n)+'☆☆☆☆☆'.slice(0,5-n)}
+
+  var fb=document.getElementById('avisFormBtn');
+  if(ok(AVIS_FORM_URL)){fb.href=AVIS_FORM_URL}else{fb.style.display='none'}
+  document.getElementById('avisWaBtn').href='https://wa.me/'+WA+'?text='+encodeURIComponent('Bonjour LKB Company, voici mon avis sur votre service : ');
+
+  function render(){
+    sum.textContent='';grid.textContent='';
+    if(!all.length){
+      grid.appendChild(el('p','rev-empty','Aucun avis publié pour le moment. Votre retour compte : partagez votre expérience avec LKB Company.'));
+      moreBtn.style.display='none';return}
+    var avg=all.reduce(function(a,r){return a+r.note},0)/all.length;
+    var sc=el('div','rev-score',avg.toFixed(1).replace('.',','));sc.appendChild(el('small',null,'/ 5'));
+    sum.appendChild(sc);
+    var st=el('div','stars',stars(Math.round(avg)));st.setAttribute('aria-label','Note moyenne '+avg.toFixed(1)+' sur 5');
+    sum.appendChild(st);
+    sum.appendChild(el('span','mono',all.length+' avis client'+(all.length>1?'s':'')));
+    all.slice(0,shown).forEach(function(r){
+      var c=el('div','rev-card');
+      var s=el('div','stars',stars(r.note));s.setAttribute('aria-label',r.note+' sur 5');c.appendChild(s);
+      c.appendChild(el('p',null,'« '+r.texte+' »'));
+      var n=el('div','rev-name',r.nom);if(r.ville)n.appendChild(el('span',null,' — '+r.ville));c.appendChild(n);
+      grid.appendChild(c)});
+    moreBtn.style.display=all.length>shown?'inline-flex':'none'}
+  moreBtn.addEventListener('click',function(){shown+=6;render()});
+
+  function clean(r){var n=parseInt(r.note,10);n=isNaN(n)?5:Math.max(1,Math.min(5,n));
+    var t=(r.texte||'').toString().trim().slice(0,300);var nom=(r.nom||'').toString().trim();
+    return t&&nom?{nom:nom,ville:(r.ville||'').toString().trim(),note:n,texte:t}:null}
+  all=AVIS_VERIFIES.map(clean).filter(Boolean);render();
+
+  if(!ok(AVIS_CSV_URL)||typeof Papa==='undefined')return;
+  Papa.parse(AVIS_CSV_URL,{download:true,header:true,skipEmptyLines:true,complete:function(res){
+    var H=res.meta.fields||[],u={};
+    function f(test){for(var i=0;i<H.length;i++){if(!u[H[i]]&&test(norm(H[i]))){u[H[i]]=1;return H[i]}}return null}
+    function has(n,w){return w.some(function(k){return n.indexOf(k)>=0})}
+    var c={st:f(function(n){return n.indexOf('statut')===0}),note:f(function(n){return has(n,['note','etoile'])}),
+      ville:f(function(n){return has(n,['ville','commune','quartier'])}),
+      texte:f(function(n){return has(n,['avis','commentaire','message','experience'])}),
+      nom:f(function(n){return has(n,['nom','prenom'])})};
+    function g(row,k){return k?(row[k]||'').toString().trim():''}
+    var live=res.data.filter(function(r){return norm(g(r,c.st)).indexOf('valid')===0}).reverse()
+      .map(function(r){return clean({nom:g(r,c.nom),ville:g(r,c.ville),note:g(r,c.note),texte:g(r,c.texte)})}).filter(Boolean);
+    all=live.concat(all);render()},
+  error:function(){}});
+})();
+</script>
 </body>
 </html>
